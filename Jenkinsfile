@@ -13,4 +13,7 @@ node('jdk11-mvn3.8.4') {
     stage('archive') {
         archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
     }
+    stage('publish test reports') {
+        junit '**/TEST-*.xml'
+    }
 }
