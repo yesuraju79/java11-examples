@@ -8,6 +8,7 @@ pipeline {
         stage('scm') {
             steps {
                 git 'https://github.com/GitPracticeRepo/java11-examples.git'
+                input message: 'Continue to the next stage?', submitter: 'qtdevops'
             }
         }
         stage('build') {
