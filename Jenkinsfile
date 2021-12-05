@@ -1,7 +1,7 @@
 node('jdk11-mvn3.8.4') {
-    properties([pipelineTriggers([cron('0 */3 * * 0,6')])])
+    properties([parameters([choice(choices: ['scripted', 'master', 'declarative'], description: 'branch to be built', name: 'BRANCH_TO_BUILD')])])
     stage('git') {
-        git 'https://github.com/GitPracticeRepo/java11-examples.git'
+        git url: 'https://github.com/GitPracticeRepo/java11-examples.git', branch: "${params.BRANCH_TO_BUILD}"
     }
     stage('build') {
         sh '''
