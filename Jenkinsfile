@@ -11,21 +11,28 @@ pipeline {
     stages {
         stage('scm') {
             steps {
+                mail from: "devops@qt.com",
+                to: 'team@qt.com',
+                subject: "Cloning code for project ${env.JOB_NAME} started",
+                body: "${env.BUILD_URL}"
+
                 git url: 'https://github.com/GitPracticeRepo/java11-examples.git', branch: "${params.BRANCH_TO_BUILD}"
             }
         }
         stage('build') {
             steps {
+                mail from: "devops@qt.com",
+                to: 'team@qt.com',
+                subject: "Build using maven for project ${env.JOB_NAME} started",
+                body: "${env.BUILD_URL}"
+
                 sh "/usr/local/apache-maven-3.8.4/bin/mvn ${params.MAVEN_GOAL}"
             }
         }
     }
     post {
         always {
-            mail from: "devops@qt.com",
-                to: 'team@qt.com',
-                subject: "Status of the pipeline ${currentBuild.fullDisplayName}",
-                body: "${env.BUILD_URL} has a result ${currentBuild.result}"
+            
 
             emailext attachLog: true,
                 body: """<p> Executed: Job <b>\'${env.JOB_NAME}:${env.BUILD_NUMBER}\'
