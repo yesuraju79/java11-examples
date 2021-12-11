@@ -25,8 +25,12 @@ pipeline {
                 to: 'team@qt.com',
                 subject: "Build using maven for project ${env.JOB_NAME} started",
                 body: "${env.BUILD_URL}"
-
-                sh "/usr/local/apache-maven-3.8.4/bin/mvn ${params.MAVEN_GOAL}"
+                withSonarQubeEnv(installationName: 'SONAR_9.2.1', envOnly: true, credentialsId: 'SONAR_TOKEN') {
+                    sh "/usr/local/apache-maven-3.8.4/bin/mvn clean package sonar:sonar"
+					echo "${env.SONAR_HOST_URL}"
+                    
+                }
+                
             }
         }
     }
