@@ -1,6 +1,6 @@
 node('jdk11-mvn3.8.4') {
     stage('git') {
-        git 'https://github.com/yesuraju79/gitpratice.git'
+        git 'https://github.com/yesuraju79/java11-examples.git'
     }
     stage('build') {
         sh '''
@@ -15,3 +15,4 @@ node('jdk11-mvn3.8.4') {
     stage('publish test reports') {
         junit '**/TEST-*.xml'
     }
+} 
